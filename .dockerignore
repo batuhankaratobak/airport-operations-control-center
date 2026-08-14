@@ -1,0 +1,16 @@
+.git
+.github
+.next
+.vinext
+.wrangler
+dist
+node_modules
+npm-debug.log*
+.env
+.env.*
+!.env.example
+coverage
+outputs
+work
+README.md
+tsconfig.tsbuildinfo
