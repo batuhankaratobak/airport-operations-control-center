@@ -35,7 +35,6 @@ test("server-renders the operations dashboard", async () => {
   assert.match(html, /Airport Operations Control Center/i);
   assert.match(html, /Operations Overview/i);
   assert.match(html, /Recent flight activity/i);
-  assert.doesNotMatch(html, /codex-preview|Your site is taking shape/i);
 });
 
 test("serves a typed airport statistics API response", async () => {

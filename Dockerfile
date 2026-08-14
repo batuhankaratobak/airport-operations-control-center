@@ -25,8 +25,6 @@ COPY --from=builder --chown=appuser:nodejs /app/components ./components
 COPY --from=builder --chown=appuser:nodejs /app/lib ./lib
 COPY --from=builder --chown=appuser:nodejs /app/public ./public
 COPY --from=builder --chown=appuser:nodejs /app/worker ./worker
-COPY --from=builder --chown=appuser:nodejs /app/build ./build
-COPY --from=builder --chown=appuser:nodejs /app/.openai ./.openai
 COPY --from=builder --chown=appuser:nodejs /app/vite.config.ts /app/next.config.ts ./
 USER appuser
 EXPOSE 3000
