@@ -164,19 +164,21 @@ Container root olmayan bir kullanıcıyla çalışır ve `/api/stats` endpoint�
 
 ### Vercel
 
-1. Repository’yi Vercel’e import edin.
-2. `NEXT_PUBLIC_APP_URL` değişkenini production adresinizle tanımlayın.
-3. Repository’deki build ayarlarını koruyarak deploy edin.
-4. Deploy sonrasında `/`, `/airport-guide` ve `/api/stats` adreslerini kontrol edin.
+1. Vercel’de **Add New → Project** adımını açın.
+2. GitHub erişimini yalnızca `airport-operations-control-center` repository’siyle sınırlandırın.
+3. Repository’yi import edin; Vercel projeyi Next.js olarak otomatik algılar.
+4. Varsayılan build ayarlarını değiştirmeden production deployment oluşturun.
+5. Deploy sonrasında `/`, `/airport-guide` ve `/api/stats` adreslerini kontrol edin.
 
-Proje ayrıca Vinext/Vite üzerinden Cloudflare Worker uyumlu ESM çıktı üretir.
+Vercel, production adresini metadata için otomatik olarak sağlar. Başka bir platformda
+yayınlarken gerekirse `NEXT_PUBLIC_APP_URL` değişkeniyle canonical adres tanımlanabilir.
 
 ## Güvenlik notu
 
 - Gerçek `.env` dosyaları Git tarafından takip edilmez.
 - Repository’de API anahtarı, parola veya kişisel kullanıcı verisi bulunmaz.
 - Mock veriler tamamen kurgusaldır.
-- Vinext’in kullandığı `image-size@2.0.2` paketinde ICNS/JXL/HEIF parser’larıyla ilgili yayınlanmış DoS uyarıları bulunuyor. Bu uygulama kullanıcıdan görsel almıyor veya görsel işlemiyor. Uyumlu yamalı sürüm yayınlanana kadar durum açıkça belgelenmiştir.
+- Bağımlılıklar `npm audit` ile, kaynak kod ve Git geçmişi ise secret kalıplarıyla kontrol edilir.
 
 ## Neden bu projeyi yaptım?
 

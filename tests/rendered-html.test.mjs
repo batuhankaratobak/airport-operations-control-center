@@ -1,32 +1,36 @@
 import assert from "node:assert/strict";
-import test from "node:test";
+import { spawn } from "node:child_process";
+import { after, before, test } from "node:test";
 
-const workerUrl = new URL("../dist/server/index.js", import.meta.url);
+const port = 3210;
+const baseUrl = `http://127.0.0.1:${port}`;
+let server;
 
-async function createWorker() {
-  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
-  const { default: worker } = await import(workerUrl.href);
-  return worker;
-}
+before(async () => {
+  server = spawn("npm", ["run", "start", "--", "--hostname", "127.0.0.1", "--port", String(port)], {
+    env: { ...process.env, NODE_ENV: "production" },
+    stdio: "pipe",
+  });
 
-const environment = {
-  ASSETS: {
-    fetch: async () => new Response("Not found", { status: 404 }),
-  },
-};
+  for (let attempt = 0; attempt < 60; attempt += 1) {
+    try {
+      const response = await fetch(baseUrl);
+      if (response.ok) return;
+    } catch {
+      // The production server may still be starting.
+    }
+    await new Promise((resolve) => setTimeout(resolve, 250));
+  }
 
-const executionContext = {
-  waitUntil() {},
-  passThroughOnException() {},
-};
+  throw new Error("Production server did not become ready in time.");
+});
+
+after(() => {
+  server?.kill("SIGTERM");
+});
 
 test("server-renders the operations dashboard", async () => {
-  const worker = await createWorker();
-  const response = await worker.fetch(
-    new Request("http://localhost/", { headers: { accept: "text/html" } }),
-    environment,
-    executionContext,
-  );
+  const response = await fetch(baseUrl, { headers: { accept: "text/html" } });
 
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
@@ -38,14 +42,9 @@ test("server-renders the operations dashboard", async () => {
 });
 
 test("serves a typed airport statistics API response", async () => {
-  const worker = await createWorker();
-  const response = await worker.fetch(
-    new Request("http://localhost/api/stats", {
-      headers: { accept: "application/json" },
-    }),
-    environment,
-    executionContext,
-  );
+  const response = await fetch(`${baseUrl}/api/stats`, {
+    headers: { accept: "application/json" },
+  });
 
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^application\/json\b/i);
