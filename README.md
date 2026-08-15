@@ -1,10 +1,21 @@
 # Airport Operations Control Center
 
-Antalya tarzı yoğun bir uluslararası havalimanının günlük operasyonlarını tek ekranda takip etmek için geliştirdiğim modern bir kontrol merkezi arayüzü.
+Antalya tarzı yoğun bir uluslararası havalimanının günlük operasyonlarını tek ekranda takip etmek için geliştirdiğim, production ortamında çalışan modern bir kontrol merkezi arayüzü.
+
+[Canlı uygulamayı incele](https://airport-operations-control-center-kappa.vercel.app) · [Kaynak kodu görüntüle](https://github.com/batuhankaratobak/airport-operations-control-center)
 
 Bu proje; yalnızca güzel görünen bir dashboard yapmak yerine, gerçek bir frontend ürününde ihtiyaç duyulan **Server Components, SSR, SSG, Route Handlers, TypeScript, responsive tasarım, durum yönetimi ve üretim süreçlerini** birlikte göstermek amacıyla hazırlandı.
 
 > Bu bir portfolyo projesidir. Uçuşlar, havayolları, operasyon uyarıları ve zaman bilgileri kurgusaldır; gerçek bir havalimanı sistemine bağlı değildir.
+
+## Öne çıkan mühendislik yaklaşımı
+
+- Server Components varsayılan tutularak istemciye gönderilen JavaScript sınırlandırıldı.
+- SSR, SSG ve dinamik rota üretimi aynı App Router projesinde amacına uygun kullanıldı.
+- Etkileşimli filtreler ve global UI durumu küçük Client Component sınırlarında tutuldu.
+- Mock veri, sayfalardan ayrıştırılmış typed service/repository katmanının arkasına alındı.
+- Masaüstü operasyon tablosu, mobilde kullanılabilir kart düzenine dönüştürüldü.
+- Lint, typecheck, production build ve smoke testleri CI sürecine bağlandı.
 
 ## Uygulamadan görüntüler
 
